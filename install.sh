@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # install core packages, nginx and mysql
-sudo yum install -y epel-release policycoreutils-python nginx mariadb
+sudo yum install -y epel-release policycoreutils-python python-pip nginx mariadb
 
 # open ports and allow server access to network resources
 sudo semanage port -m -t http_port_t -p tcp 81
@@ -30,4 +30,7 @@ enabled=1
 EOF'
 
 # install the archivematica storage service
-sudo yum install -y python-pip archivematica-storage-service
+sudo yum install -y archivematica-storage-service
+
+sudo -u root systemctl enable archivematica-storage-service
+sudo -u root systemctl enable nginx
