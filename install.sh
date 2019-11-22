@@ -31,6 +31,7 @@ EOF'
 # install the archivematica storage service
 sudo yum install -y archivematica-storage-service
 
+# enable the services
 sudo -u root systemctl enable archivematica-storage-service
 sudo -u root systemctl enable nginx
 sudo -u root systemctl enable rngd
