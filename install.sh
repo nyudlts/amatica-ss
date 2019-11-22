@@ -4,8 +4,7 @@
 sudo yum install -y epel-release policycoreutils-python python-pip nginx mariadb
 
 # open ports and allow server access to network resources
-sudo semanage port -m -t http_port_t -p tcp 81
-sudo semanage port -a -t http_port_t -p tcp 8001
+sudo semanage port -a -t http_port_t -p tcp 8000
 sudo setsebool -P httpd_can_network_connect_db=1
 sudo setsebool -P httpd_can_network_connect=1
 sudo setsebool -P httpd_setrlimit 1
