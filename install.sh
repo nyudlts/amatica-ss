@@ -1,15 +1,11 @@
 #! /bin/sh
 
 # install core packages, nginx and mysql
+
 sudo yum install -y epel-release policycoreutils-python python-pip yum-utils mariadb
 
-# open ports and allow server access to network resources
-#semanage port -a -t http_port_t -p tcp 8000
-#setsebool -P httpd_can_network_connect_db=1
-#setsebool -P httpd_can_network_connect=1
-#setsebool -P httpd_setrlimit 1
-
 #intsall nginx repository
+
 bash -c 'cat << EOF > /etc/yum.repos.d/nginx.repo
 [nginx-stable]
 name=nginx stable repo
@@ -21,6 +17,7 @@ module_hotfixes=true
 EOF'
 
 # add the archivematica repositories
+
 bash -c 'cat << EOF > /etc/yum.repos.d/archivematica.repo
 [archivematica]
 name=archivematica
@@ -40,15 +37,18 @@ enabled=1
 EOF'
 
 # install the archivematica storage service
+
 yum install -y archivematica-storage-service
 
 #enable the services
+
 systemctl enable archivematica-storage-service
 systemctl start archivematica-storage-service
 systemctl enable rngd
 systemctl start rngd
 
 # init the sqlite base
+
 sudo -u archivematica bash -c " \
 set -a -e -x
 source /etc/sysconfig/archivematica-storage-service
@@ -57,9 +57,6 @@ cd /usr/lib/archivematica/storage-service
 
 #config and start nginx
 cp /tmp/nginx.conf /etc/nginx/nginx.conf
-
 sed -i -e 's/listen 8001 default_server/listen 80 default_server/' /etc/nginx/conf.d/archivematica-storage-service.conf
-
 systemctl enable nginx
-
 systemctl start nginx
